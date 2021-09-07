@@ -19,7 +19,7 @@ export class AuthService {
   payload: any;
 
   constructor() { }
-
+// https://.auth0.com/authorize?audience=&response_type=token&client_id=&redirect_uri=http://localhost:8100/tabs/user-page
   build_login_link(callbackPath = '') {
     let link = 'https://';
     link += this.url + '.auth0.com';

@@ -32,7 +32,54 @@ def index():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+@app.errorhandler(403)
+def forbidden(error):
+    return jsonify({
+        'error' : 403 ,
+        'message' :'Forbidden'
+    }), 403
 
+@app.errorhandler(400)
+def permissions_not_found(error):
+    return jsonify({
+        'error' : 400 ,
+        'message' :'Permissions not included'
+    }), 400
+
+@app.errorhandler(500)
+def data_not_found(error):
+    return jsonify({
+        'error' : 500 ,
+        'message' :'error while getting results'
+    }), 500
+
+@app.errorhandler(401)
+def unauthorized(error):
+    return jsonify({
+        'error' : 401 ,
+        'message' :'Unauthorized'
+    }), 401
+
+@app.errorhandler(404)
+def unauthorized(error):
+    return jsonify({
+        'error' : 404 ,
+        'message' :'not found'
+    }), 404
+
+    
+@app.route('/drinks')
+def get_short_drinks():
+    try:
+        drinks = Drink.query.all()
+        short_drinks = [drink.short() for drink in drinks]
+        return  jsonify({
+        'success':True,
+        'drinks' : short_drinks
+        })
+    except :
+        print('error happend')
+        return abort(500)
 
 '''
 @TODO implement endpoint
@@ -42,7 +89,20 @@ def index():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks-detail')
+@requires_auth('get:drinks-detail')
+def get_lonng_drinks(jwt):
 
+    # try:
+    drinks = Drink.query.all()
+    long_drinks = [drink.long() for drink in drinks]
+    return  jsonify({
+        'success':True,
+        'drinks' : long_drinks
+        })
+    # except :
+    #     print('error while getting ruslts from short drinks from database')
+    #     return abort(500)
 
 '''
 @TODO implement endpoint
@@ -53,7 +113,21 @@ def index():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
-
+# cola = Drink(title='cola', recipe='{"color":"black", "name":"cola", "parts":"60"}')
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def add_drink():
+    try:            
+        body = request.get_json()
+        new_drink = Drink(title = body['title'], recipe = body['recipe'])
+        new_drink.insert()
+        return jsonify({
+            'success' : True,
+            'drinks' : [new_drink.long()]
+        })
+    except:
+        print('error while adding new drink')
+        abort(500)
 
 '''
 @TODO implement endpoint
@@ -66,7 +140,30 @@ def index():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
-
+@app.route('/drinks/<id>', methods=['PATCH'])
+@requires_auth('patch:drinks')
+def update_drink(payload, id):
+    print(id)
+    try:
+        body = request.get_json()        
+        title = body.get('title', None)
+        recipe = body.get('recipe', None)
+        if title == None or recipe == None :
+            abort(500)
+        drink = Drink.query.get(int(id))
+        if  drink == None :
+            abort(404)
+        drink.title = title
+        drink.recipe = recipe
+        drink.update()
+        return jsonify({
+        'success': True,
+        'drinks': [drink.long()]
+    })
+    except:
+        print('error while updating')
+        abort(500)    
+    
 
 '''
 @TODO implement endpoint
