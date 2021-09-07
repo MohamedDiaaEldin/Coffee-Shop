@@ -143,7 +143,6 @@ def add_drink():
 @app.route('/drinks/<id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def update_drink(payload, id):
-    print(id)
     try:
         body = request.get_json()        
         title = body.get('title', None)
@@ -175,7 +174,22 @@ def update_drink(payload, id):
     returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks/<id>', methods=['DELETE'])
+@requires_auth('delete:drinks')
+def delete_drink(payload, id):
+    try:
+        drink = Drink.query.get(int(id))
+        if  drink == None :
+            abort(404)
 
+        drink.delete()
+        return jsonify({
+        'success': True,
+        'delete': id
+    })
+    except:
+        print('error while updating')
+        abort(500)    
 
 # Error Handling
 '''
@@ -209,7 +223,4 @@ def unprocessable(error):
 '''
 
 
-'''
-@TODO implement error handler for AuthError
-    error handler should conform to general task above
-'''
+
