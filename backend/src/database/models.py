@@ -3,7 +3,7 @@ from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 import json
 
-database_filename = "database.db"
+database_filename = "coffe.db"
 project_dir = os.path.dirname(os.path.abspath(__file__))
 database_path = "sqlite:///{}".format(os.path.join(project_dir, database_filename))
 
@@ -20,8 +20,9 @@ def setup_db(app):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+    return db 
 
-
+# cola = Drink(title='cola', recipe='{"color":"black", "name":"cola", "parts":"60"}')
 '''
 db_drop_and_create_all()
     drops the database tables and starts fresh
@@ -64,8 +65,10 @@ class Drink(db.Model):
     '''
 
     def short(self):
-        print(json.loads(self.recipe))
-        short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
+        # print(json.loads(self.recipe))
+        # short_recipe = [{'color': r['color'], 'parts': r['parts']} for r in json.loads(self.recipe)]
+        recipe = json.loads(self.recipe)
+        short_recipe = [recipe['color'], recipe['parts']]
         return {
             'id': self.id,
             'title': self.title,

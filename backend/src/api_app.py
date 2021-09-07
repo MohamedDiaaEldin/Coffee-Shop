@@ -8,9 +8,13 @@ from .database.models import db_drop_and_create_all, setup_db, Drink
 from .auth.auth import AuthError, requires_auth
 
 app = Flask(__name__)
-setup_db(app)
+db = setup_db(app)
 CORS(app)
 
+
+@app.route('/')
+def index():
+    return 'hi'
 '''
 @TODO uncomment the following line to initialize the datbase
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
