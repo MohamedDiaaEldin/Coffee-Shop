@@ -38,32 +38,20 @@ def get_token_auth_header():
     if not auth:
         print('Authorization header is expected')
         abort(401)
-        # raise AuthError({"code": "authorization_header_missing",
-        #                 "description":
-        #                     "Authorization header is expected"}, 401)
+
 
     parts = auth.split()
 
     if parts[0].lower() != "bearer":
         print("Authorization header must start with")
         abort(401)
-        # raise AuthError({"code": "invalid_header",
-        #                 "description":
-        #                     "Authorization header must start with"
-        #                     " Bearer"}, 401)
+
     elif len(parts) == 1:
         print("Token not found")
         abort(401)
-        # raise AuthError({"code": "invalid_header",
-        #                 "description": "Token not found"}, 401)
     elif len(parts) > 2:
         print('Authorization header must be')
         abort(401)
-        # raise AuthError({"code": "invalid_header",
-        #                 "description":
-        #                     "Authorization header must be"
-        #                     " Bearer token"}, 401)
-
     token = parts[1]
     return token
 
@@ -81,16 +69,9 @@ def get_token_auth_header():
 '''
 def check_permissions(permission, payload):
         if 'permissions' not in payload :
-            #  raise AuthError({
-            #             'code': 'invalid_claims',
-            #             'description': 'Permissions not included in JWT.'
-            #             }, 400)
             abort(400)
         if  len(payload['permissions'])==0 or permission not in payload['permissions']:
-            # raise AuthError({
-            #     'code': 'unauthorized',
-            #     'description': 'Permission not found.'
-            #      }, 403)
+
             abort(403)
         return True
 
@@ -137,23 +118,16 @@ def verify_decode_jwt(token):
         except jwt.ExpiredSignatureError:
             print('token is expired')
             abort(401)
-                # raise AuthError({"code": "token_expired",
-                #                     "description": "token is expired", 'status code' : 401}, 401)
+
 
         except jwt.JWTClaimsError:
             print('please check the audience and issuer')
             abort(401)
-                # raise AuthError({"code": "invalid_claims",
-                #                     "description":
-                #                         "incorrect claims,"
-                #                         "please check the audience and issuer"}, 401)
+
         except Exception:
             print('Unable to parse authentication')
             abort(401)
-                # raise AuthError({"code": "invalid_header",
-                #                     "description":
-                #                         "Unable to parse authentication"
-                #                         " token."}, 401)
+
     return payload
 
 '''

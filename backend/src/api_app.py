@@ -116,16 +116,19 @@ def get_lonng_drinks(jwt):
 # cola = Drink(title='cola', recipe='{"color":"black", "name":"cola", "parts":"60"}')
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
-def add_drink():
+def add_drink(jwt):
     try:            
         body = request.get_json()
-        new_drink = Drink(title = body['title'], recipe = body['recipe'])
+        print(json.dumps(body['recipe']))
+        print(type(json.dumps(body['recipe'])))
+        new_drink = Drink(title = body['title'], recipe = json.dumps(body['recipe']))
         new_drink.insert()
         return jsonify({
             'success' : True,
             'drinks' : [new_drink.long()]
         })
     except:
+        db.session.rollback()
         print('error while adding new drink')
         abort(500)
 
@@ -143,23 +146,26 @@ def add_drink():
 @app.route('/drinks/<id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
 def update_drink(payload, id):
+
     try:
         body = request.get_json()        
         title = body.get('title', None)
         recipe = body.get('recipe', None)
+        print(title)
         if title == None or recipe == None :
             abort(500)
         drink = Drink.query.get(int(id))
         if  drink == None :
             abort(404)
         drink.title = title
-        drink.recipe = recipe
+        drink.recipe = json.dumps(recipe)
         drink.update()
         return jsonify({
-        'success': True,
-        'drinks': [drink.long()]
-    })
+            'success': True,
+            'drinks': [drink.long()]
+        })
     except:
+        db.session.rollback()
         print('error while updating')
         abort(500)    
     
