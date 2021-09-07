@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e8ad44ee-7536-4901-913c-46e718d56d9f",
+		"_postman_id": "a18f7277-7eac-4d06-a109-6b09316b8f1a",
 		"name": "udacity-fsnd-udaspicelatte",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,7 +14,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05cea6f9-9af0-4e60-9aad-4c8faf37ef4c",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -30,13 +29,28 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks",
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks"
 							]
@@ -50,7 +64,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "65a195fa-a734-44b7-a7e0-c629b32d1fbb",
 								"exec": [
 									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
@@ -61,13 +74,28 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks-detail",
+							"raw": "http://127.0.0.1:5000/drinks-detail",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks-detail"
 							]
@@ -81,7 +109,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5050a5b9-2e15-474e-9981-0e61ec8d2ff1",
 								"exec": [
 									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
@@ -112,7 +139,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ec1488aa-b4d7-468a-89f5-03484009e69c",
 								"exec": [
 									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
@@ -144,7 +170,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0aea66ad-0a6e-4533-b192-a8b0af746c78",
 								"exec": [
 									"pm.test(\"Status code is 401 since no credentials are present\", function () {",
 									"    pm.response.to.have.status(401);",
@@ -181,7 +206,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05cea6f9-9af0-4e60-9aad-4c8faf37ef4c",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -217,7 +241,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "65a195fa-a734-44b7-a7e0-c629b32d1fbb",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -228,13 +251,28 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVjejNldzlmOV9VMUhscERyckRQXyJ9.eyJpc3MiOiJodHRwczovL2NvZmZlZS11ZC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTMwMTczNzI2Mzc3ODA3MjMyNjIiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MzEwMzYzMDEsImV4cCI6MTYzMTA0MzUwMSwiYXpwIjoiQkc2cm1CMXEyZ0QzSGFsMXBEbzRUbFJJQXZ2Vlp4WXgiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDpkcmlua3MtZGV0YWlsIl19.TZDOKKWj7VDI2RWulCULlIZIFaNu9zlWv5d1JsUwAZd9j8kJNgZYEXshMzaxLsWx3lSh7tv2oQTCjayCm6nSMqmAhD1nSjbI98jmqn1dOEQDgl3citjquJGiT5vTigC4VyQudAV7RidNUIwKjMNmwQSP5qa7jrJA2J0_VQxdrkjE4u6mQ9PyE1ZvfGoB9dGN2LLiaFsSX-F5_Q7G7ToPlysEyYD7uD78TIeGC0B8GA6zEQxpAQMmrbCgB9lgNYUDsU7aDupmFYXzKPPvN3pJUQQ5kh3fSMHnkoOKdRrnfHs-HaIQ5uATsjdqhGvN9a5I3K8nMfEk6rpNYCHWLJYv1A",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks-detail",
+							"raw": "http://127.0.0.1:5000/drinks-detail",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks-detail"
 							]
@@ -248,7 +286,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5050a5b9-2e15-474e-9981-0e61ec8d2ff1",
 								"exec": [
 									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -289,7 +326,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ec1488aa-b4d7-468a-89f5-03484009e69c",
 								"exec": [
 									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -300,6 +336,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"url": {
@@ -321,7 +367,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0aea66ad-0a6e-4533-b192-a8b0af746c78",
 								"exec": [
 									"pm.test(\"Status code is 403 since credentials are valid, but permission is not present\", function () {",
 									"    pm.response.to.have.status(403);",
@@ -362,7 +407,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f985b22c-34c4-4cfe-8308-f6fb98d799ac",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -372,7 +416,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "596425ac-59b4-4488-9f07-4c748e1ad082",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -390,7 +433,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05cea6f9-9af0-4e60-9aad-4c8faf37ef4c",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -426,7 +468,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "65a195fa-a734-44b7-a7e0-c629b32d1fbb",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -442,13 +483,28 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVjejNldzlmOV9VMUhscERyckRQXyJ9.eyJpc3MiOiJodHRwczovL2NvZmZlZS11ZC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDg3OTgxODQxODIyNDY0NTk3MTQiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MzEwMzU4NDksImV4cCI6MTYzMTA0MzA0OSwiYXpwIjoiQkc2cm1CMXEyZ0QzSGFsMXBEbzRUbFJJQXZ2Vlp4WXgiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.PiZnlGphs2Xbv5LpolTwa2uBKv6OgeeDJ6Cb8C2Ee28IOW-d9oYEFE-UV9pFoM4S7LbTx8vMcgOvtBLzH7NddeG0z1LxCL_9MgOS04BOeNZASpiaOBvDxyUnINR6c5fiGCB7HVDKtlzdEC4c41xI8cp6-Hj0xVudJ6LLBiE8Rv2voN2Op9AZloVJbNYs0_KUbnleAQlr1qpJvyJeo_rOdoQJrprgJQTZMsd5TkU8sueVmnvrSB8x1gd1DKKJqZSuWSOZLPtaWJbzuICox07_arysEVfXl-tjYHweCEUykX5X0PcFn1MOyFgEwVNOb4hORWfTm5ccKcIaUMa0yHmDRA",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks-detail",
+							"raw": "http://127.0.0.1:5000/drinks-detail",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks-detail"
 							]
@@ -462,7 +518,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5050a5b9-2e15-474e-9981-0e61ec8d2ff1",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -473,6 +528,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVjejNldzlmOV9VMUhscERyckRQXyJ9.eyJpc3MiOiJodHRwczovL2NvZmZlZS11ZC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDg3OTgxODQxODIyNDY0NTk3MTQiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MzEwMzM5NjMsImV4cCI6MTYzMTA0MTE2MywiYXpwIjoiQkc2cm1CMXEyZ0QzSGFsMXBEbzRUbFJJQXZ2Vlp4WXgiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.CO4CbsuVW1B0GHIImIx1msANii79kXGgYlcQ8vTX4m9IccNjL2Rc_U9VTx597w2R3XOXulHPLFtPB-8LfWQN9vhbYSldMErw5AZzIcJaS3bK_gmb7B60vP6gqS8xD9vVyJxFKi5Jaoixns5_5LO4B6qp91dYIo9S7nIeCVutwfjkZi4mxqJbEXmChXeUnoGr1YOkqAL9D--WoZ22Lj4O9r0d1bSORhfbYE3dqK3ri3lHLVW_VQM-kevMSop-1_DbjhxVSxu-uHYkIDrAy5btOeZST7Z9BxYzcom7fv01ACGEeRMtapDNstOrflHOrvn3V0py3X0M9qOAIlv1RjJ0EQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -487,10 +552,15 @@
 							"raw": "{\n    \"title\": \"Water3\",\n    \"recipe\": {\n        \"name\": \"Water\",\n        \"color\": \"blue\",\n        \"parts\": 1\n    }\n}"
 						},
 						"url": {
-							"raw": "{{host}}/drinks",
+							"raw": "http://127.0.0.1:5000/drinks",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks"
 							]
@@ -504,7 +574,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "ec1488aa-b4d7-468a-89f5-03484009e69c",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -520,6 +589,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVjejNldzlmOV9VMUhscERyckRQXyJ9.eyJpc3MiOiJodHRwczovL2NvZmZlZS11ZC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDg3OTgxODQxODIyNDY0NTk3MTQiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MzEwMzM5NjMsImV4cCI6MTYzMTA0MTE2MywiYXpwIjoiQkc2cm1CMXEyZ0QzSGFsMXBEbzRUbFJJQXZ2Vlp4WXgiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.CO4CbsuVW1B0GHIImIx1msANii79kXGgYlcQ8vTX4m9IccNjL2Rc_U9VTx597w2R3XOXulHPLFtPB-8LfWQN9vhbYSldMErw5AZzIcJaS3bK_gmb7B60vP6gqS8xD9vVyJxFKi5Jaoixns5_5LO4B6qp91dYIo9S7nIeCVutwfjkZi4mxqJbEXmChXeUnoGr1YOkqAL9D--WoZ22Lj4O9r0d1bSORhfbYE3dqK3ri3lHLVW_VQM-kevMSop-1_DbjhxVSxu-uHYkIDrAy5btOeZST7Z9BxYzcom7fv01ACGEeRMtapDNstOrflHOrvn3V0py3X0M9qOAIlv1RjJ0EQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [
 							{
@@ -531,13 +610,18 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Water5\"\n}"
+							"raw": "{\n    \"title\":  \"cola\" ,\n    \"recipe\" : {\"name\":\"cola\", \"color\":\"red\", \"parts\":\"6\"}\n}"
 						},
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks",
 								"1"
@@ -552,7 +636,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0aea66ad-0a6e-4533-b192-a8b0af746c78",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
@@ -563,13 +646,28 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVjejNldzlmOV9VMUhscERyckRQXyJ9.eyJpc3MiOiJodHRwczovL2NvZmZlZS11ZC51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDg3OTgxODQxODIyNDY0NTk3MTQiLCJhdWQiOiJjb2ZmZWUiLCJpYXQiOjE2MzEwMTY4MDUsImV4cCI6MTYzMTAyNDAwNSwiYXpwIjoiQkc2cm1CMXEyZ0QzSGFsMXBEbzRUbFJJQXZ2Vlp4WXgiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTpkcmlua3MiLCJnZXQ6ZHJpbmtzIiwiZ2V0OmRyaW5rcy1kZXRhaWwiLCJwYXRjaDpkcmlua3MiLCJwb3N0OmRyaW5rcyJdfQ.iFeoW0lTAxcjYotAvZ8w_MGrFNHXi4x3kSQsUBrVZ-qPACb-R9yWM-airF9IypYnkOwCI1kriJ-pxnh9ec1Yhx72GbpbwKfPA2aKEHJOXsuR1G55PE-Qw9YVNI21UweTgtz3JXMujhDxPYfMRF8bFAChSmJnof0UmNTSGBnjfNWxzg5nOa1yG2-BtwdzWfSzck5NrX4g_Y8vlNf-E3_hOhRvc1rAEErky-r8j2cmOIA1gKFxTZ-kq0Qj5-Mg_R2MevcN2zSgFq5QkN02utCicS8QR8_uwkLy3TM9PrW9UtBwoeubenpnErXXPnpQxnkFO0PvZKJdRt9HBHo_JpJsDQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks/1",
+							"raw": "http://127.0.0.1:5000/drinks/1",
+							"protocol": "http",
 							"host": [
-								"{{host}}"
+								"127",
+								"0",
+								"0",
+								"1"
 							],
+							"port": "5000",
 							"path": [
 								"drinks",
 								"1"
@@ -593,7 +691,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "113ee6fe-418d-4bf4-a641-444b5816e46b",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -603,7 +700,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5704da6d-dc7e-42b9-8214-aa7ecf075bca",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -617,7 +713,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "fc871e59-eaa4-46e8-975b-87b750ad1804",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -627,7 +722,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e5766f23-c7f1-472b-ae34-825a91147815",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -637,7 +731,6 @@
 	],
 	"variable": [
 		{
-			"id": "7da0fa13-ecd9-4d7d-8e38-fde2c81cfdaf",
 			"key": "host",
 			"value": "localhost:5000",
 			"type": "string"
