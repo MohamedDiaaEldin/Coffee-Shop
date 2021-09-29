@@ -1,11 +1,10 @@
 import os
 from flask import Flask, request, jsonify, abort
-from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
 from .database.models import db_drop_and_create_all, setup_db, Drink
-from .auth.auth import AuthError, requires_auth
+from .auth.auth import  requires_auth
 
 app = Flask(__name__)
 db = setup_db(app)
@@ -15,23 +14,107 @@ CORS(app)
 @app.route('/')
 def index():
     return 'hi'
-'''
-@TODO uncomment the following line to initialize the datbase
-!! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
-!! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
-!! Running this funciton will add one
-'''
-# db_drop_and_create_all()
 
+# db_drop_and_create_all()
 # ROUTES
-'''
-@TODO implement endpoint
-    GET /drinks
-        it should be a public endpoint
-        it should contain only the drink.short() data representation
-    returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
-        or appropriate status code indicating reason for failure
-'''
+    
+@app.route('/drinks')
+def get_short_drinks():
+    try:
+        drinks = Drink.query.all()
+        short_drinks = [drink.short() for drink in drinks]
+        return  jsonify({
+        'success':True,
+        'drinks' : short_drinks
+        })
+    except :
+        print('error happend')
+        return abort(500)
+
+
+
+@app.route('/drinks-detail')
+@requires_auth('get:drinks-detail')
+def get_lonng_drinks(jwt):
+
+    try:
+        drinks = Drink.query.all()
+        long_drinks = [drink.long() for drink in drinks]
+        return  jsonify({
+            'success':True,
+            'drinks' : long_drinks
+        })
+    except :
+        print('error while getting ruslts from short drinks from database')
+        return abort(500)
+
+
+
+# cola = Drink(title='cola', recipe='{"color":"black", "name":"cola", "parts":"60"}')
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def add_drink(jwt):
+    try:            
+        body = request.get_json()
+        print(json.dumps(body['recipe']))
+        print(type(json.dumps(body['recipe'])))
+        new_drink = Drink(title = body['title'], recipe = json.dumps(body['recipe']))
+        new_drink.insert()
+        return jsonify({
+            'success' : True,
+            'drinks' : [new_drink.long()]
+        })
+    except:
+        db.session.rollback()
+        print('error while adding new drink')
+        abort(500)
+
+@app.route('/drinks/<id>', methods=['PATCH'])
+@requires_auth('patch:drinks')
+def update_drink(payload, id):
+
+    try:
+        body = request.get_json()        
+        title = body.get('title', None)
+        recipe = body.get('recipe', None)
+        print(title)
+        if title == None or recipe == None :
+            abort(500)
+        drink = Drink.query.get(int(id))
+        if  drink == None :
+            abort(404)
+        drink.title = title
+        drink.recipe = json.dumps(recipe)
+        drink.update()
+        return jsonify({
+            'success': True,
+            'drinks': [drink.long()]
+        })
+    except:
+        db.session.rollback()
+        print('error while updating')
+        abort(500)    
+    
+
+@app.route('/drinks/<id>', methods=['DELETE'])
+@requires_auth('delete:drinks')
+def delete_drink(payload, id):
+    try:
+        drink = Drink.query.get(int(id))
+        if  drink == None :
+            abort(404)
+
+        drink.delete()
+        return jsonify({
+        'success': True,
+        'delete': id
+    })
+    except:
+        print('error while updating')
+        abort(500)    
+
+# Error Handling
+
 @app.errorhandler(403)
 def forbidden(error):
     return jsonify({
@@ -67,141 +150,6 @@ def unauthorized(error):
         'message' :'not found'
     }), 404
 
-    
-@app.route('/drinks')
-def get_short_drinks():
-    try:
-        drinks = Drink.query.all()
-        short_drinks = [drink.short() for drink in drinks]
-        return  jsonify({
-        'success':True,
-        'drinks' : short_drinks
-        })
-    except :
-        print('error happend')
-        return abort(500)
-
-'''
-@TODO implement endpoint
-    GET /drinks-detail
-        it should require the 'get:drinks-detail' permission
-        it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
-        or appropriate status code indicating reason for failure
-'''
-@app.route('/drinks-detail')
-@requires_auth('get:drinks-detail')
-def get_lonng_drinks(jwt):
-
-    # try:
-    drinks = Drink.query.all()
-    long_drinks = [drink.long() for drink in drinks]
-    return  jsonify({
-        'success':True,
-        'drinks' : long_drinks
-        })
-    # except :
-    #     print('error while getting ruslts from short drinks from database')
-    #     return abort(500)
-
-'''
-@TODO implement endpoint
-    POST /drinks
-        it should create a new row in the drinks table
-        it should require the 'post:drinks' permission
-        it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
-        or appropriate status code indicating reason for failure
-'''
-# cola = Drink(title='cola', recipe='{"color":"black", "name":"cola", "parts":"60"}')
-@app.route('/drinks', methods=['POST'])
-@requires_auth('post:drinks')
-def add_drink(jwt):
-    try:            
-        body = request.get_json()
-        print(json.dumps(body['recipe']))
-        print(type(json.dumps(body['recipe'])))
-        new_drink = Drink(title = body['title'], recipe = json.dumps(body['recipe']))
-        new_drink.insert()
-        return jsonify({
-            'success' : True,
-            'drinks' : [new_drink.long()]
-        })
-    except:
-        db.session.rollback()
-        print('error while adding new drink')
-        abort(500)
-
-'''
-@TODO implement endpoint
-    PATCH /drinks/<id>
-        where <id> is the existing model id
-        it should respond with a 404 error if <id> is not found
-        it should update the corresponding row for <id>
-        it should require the 'patch:drinks' permission
-        it should contain the drink.long() data representation
-    returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
-        or appropriate status code indicating reason for failure
-'''
-@app.route('/drinks/<id>', methods=['PATCH'])
-@requires_auth('patch:drinks')
-def update_drink(payload, id):
-
-    try:
-        body = request.get_json()        
-        title = body.get('title', None)
-        recipe = body.get('recipe', None)
-        print(title)
-        if title == None or recipe == None :
-            abort(500)
-        drink = Drink.query.get(int(id))
-        if  drink == None :
-            abort(404)
-        drink.title = title
-        drink.recipe = json.dumps(recipe)
-        drink.update()
-        return jsonify({
-            'success': True,
-            'drinks': [drink.long()]
-        })
-    except:
-        db.session.rollback()
-        print('error while updating')
-        abort(500)    
-    
-
-'''
-@TODO implement endpoint
-    DELETE /drinks/<id>
-        where <id> is the existing model id
-        it should respond with a 404 error if <id> is not found
-        it should delete the corresponding row for <id>
-        it should require the 'delete:drinks' permission
-    returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
-        or appropriate status code indicating reason for failure
-'''
-@app.route('/drinks/<id>', methods=['DELETE'])
-@requires_auth('delete:drinks')
-def delete_drink(payload, id):
-    try:
-        drink = Drink.query.get(int(id))
-        if  drink == None :
-            abort(404)
-
-        drink.delete()
-        return jsonify({
-        'success': True,
-        'delete': id
-    })
-    except:
-        print('error while updating')
-        abort(500)    
-
-# Error Handling
-'''
-Example error handling for unprocessable entity
-'''
-
 
 @app.errorhandler(422)
 def unprocessable(error):
@@ -210,23 +158,3 @@ def unprocessable(error):
         "error": 422,
         "message": "unprocessable"
     }), 422
-
-
-'''
-@TODO implement error handlers using the @app.errorhandler(error) decorator
-    each error handler should return (with approprate messages):
-             jsonify({
-                    "success": False,
-                    "error": 404,
-                    "message": "resource not found"
-                    }), 404
-
-'''
-
-'''
-@TODO implement error handler for 404
-    error handler should conform to general task above
-'''
-
-
-
